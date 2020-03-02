@@ -65,6 +65,7 @@ issues = f'''
 
 def inialize():
     global changeKeys
+    changeKeys = False
     '''
     Initializes ip address, port.
     Asks user if they want to view qr code.
@@ -117,7 +118,7 @@ def do_press():
     except:
         success = False
 
-    print("_________>   ",changeKeys, key)
+    # print("_________>   ",changeKeys, key)
 
     return {"press": success}
 
