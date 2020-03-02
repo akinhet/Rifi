@@ -62,9 +62,9 @@ Uses:
 ---
 
 To Do:
-- Remove Port Option from apple watch app and use static port for connection. *will do so in next release*
-- Use multimedia buttons instead of keyboard buttons.
-
+- Create a separate UI elements for controlling system media controls. *fixes issue #2*
+- Create a power and mute button.
+- Create a keyboard movement button.
 ---
   
 
