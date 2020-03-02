@@ -22,12 +22,28 @@ function mysubmit(key) {
 }
   </script>
   <body>
+<div class="topLayout">
+  <button onclick="mysubmit('power')" class="mute1 cta" ></button>
+  <button onclick="mysubmit('volumemute')" class="mute2 cta" ></button>
+</div>
+
     <div class="wrapper">
-      <button onclick="mysubmit('up')"    class="two cta" ></button>
-      <button onclick="mysubmit('right')" class="four cta"></button>   
-      <button onclick="mysubmit('left')"  class="three cta"></button>
-      <button onclick="mysubmit('down')"  class="five cta"></button>
-      <button onclick="mysubmit('space')" class="six cta"></button>
+      <!-- <button onclick="mysubmit('volumemute')"    class="mute cta" ></button> -->
+
+      <button onclick="mysubmit('volumeup')"    class="two cta" ></button>
+      <button onclick="mysubmit('nexttrack')" class="four cta"></button>   
+      <button onclick="mysubmit('prevtrack')"  class="three cta"></button>
+      <button onclick="mysubmit('volumedown')"  class="five cta"></button>
+      <button onclick="mysubmit('playpause')" class="six cta"></button>
+    </div>
+
+    <div class="multimedia_wrapper">
+      <button onclick="mysubmit('left')"    class="leftArrow cta" ></button>
+      <button onclick="mysubmit('up')" class="up cta"></button>   
+      <button onclick="mysubmit('space')"  class="space cta"></button>
+      <button onclick="mysubmit('down')"  class="down cta"></button>
+      <button onclick="mysubmit('right')"  class="rightArrow cta"></button>
+
     </div>
   </body>
 </html>
