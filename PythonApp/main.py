@@ -23,7 +23,11 @@ macKeys = {
     'prevtrack'  : 'left',
     'volumedown' : 'down',
     'nexttrack'  : 'right',
-    'volumemute' : 'm'
+    'volumemute' : 'm',
+    'down'       : 'down',
+    'up'         : 'up',
+    'right'      : 'right',
+    'left'       : 'left'
 }
 
 

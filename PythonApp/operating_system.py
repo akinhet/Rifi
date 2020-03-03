@@ -2,6 +2,7 @@ import abc
 from pyautogui import press, hotkey
 import sys
 import os
+import subprocess
 
 class OS:
 
@@ -36,11 +37,30 @@ class OS:
 class Windows(OS):
 
     def do_action(self, action):
+
+        windowKeys = {            
+        'playpause' : 'playpause',
+        'volumeup' : 'volumeup',
+        'prevtrack' : 'prevtrack',
+        'volumedown': 'volumedown',
+        'nexttrack' : 'nexttrack',
+        'volumemute' : 'volumemute',
+        'down': 'down',
+        'up': 'up',
+        'right':'right',
+        'left':'left',
+        'space':'space' 
+        }
+
         try:
-            if action != "power":
-                press(action)
-            else:
+            if action == 'power':
                 hotkey('alt', 'f4')
+            elif action in windowKeys:
+                press(windowKeys[action])
+            else:
+                pass
+                # print("unknown button") # prevents people from injecting keys in url ^ .
+
             return True
         except Exception:
             return False
@@ -52,20 +72,66 @@ class Windows(OS):
 
 class MAC(OS):
 
+    isMuted = False
+    currentVolume = 5
+
+    def currentVolumeInfo(self):
+        cmd = "osascript -e 'output volume of (get volume settings)'"
+        s = subprocess.run(cmd, shell=True, capture_output=True)
+        print(s)
+        self.currentVolume = int(s.stdout.decode().split()[0]) // 10  # mapping value  of 0-100 to 0-10.
+
+
+    def controllVolume(self, vc):
+
+        if self.currentVolume > 7 or self.currentVolume < 1:   # adding restrections (apple scripts lets one map from 0 to 7)
+            self.currentVolume = 0 if self.currentVolume < 1 else 7
+
+        if vc == 'volumedown':
+            self.currentVolume -= 1
+
+        if vc == 'volumeup':
+            self.currentVolume += 1
+            
+        os.system(f"osascript -e 'set volume {self.currentVolume}'")
+        
+
+    def muteMac(self): # Mutes and unmutes fix.
+
+        if not self.isMuted:
+            os.system("osascript -e 'set volume output muted true'")
+            self.isMuted = True
+        else:
+            os.system("osascript -e 'set volume output muted false'")
+            self.isMuted = False
+
+
     def do_action(self, action):
-        macKeys = {
+
+        # prevents people from injecting keys in url.
+        macKeys = { 
             'playpause': 'space',
-            'volumeup': 'up',
             'prevtrack': 'left',
-            'volumedown': 'down',
             'nexttrack': 'right',
-            'volumemute': 'm'
+            'down': 'down',
+            'up': 'up',
+            'right':'right',
+            'left':'left',
+            'space':'space'     
         }
         try:
-            if action != "power":
+            # print("action: ", action)
+            if action == 'power':
+                hotkey('command', 'q')
+            elif action == 'volumemute':
+                self.muteMac()
+            elif action == 'volumeup' or action == 'volumedown':
+                self.controllVolume(action)
+            elif action in macKeys:
                 press(macKeys[action])
             else:
-                hotkey('command', 'q')
+                # print("unknown button") # prevents people from injecting keys in url ^ .
+                pass
             return True
         except Exception:
             return False
@@ -84,13 +150,22 @@ class Linux(OS):
             'prevtrack' : 'left',
             'volumedown': 'down',
             'nexttrack' : 'right',
-            'volumemute' : 'm'
+            'volumemute' : 'm',
+            'down': 'down',
+            'up': 'up',
+            'right':'right',
+            'left':'left',
+            'space':'space'
         }
         try:
-            if action != "power":
+            if action == 'power':
+                hotkey('alt', 'f4')
+            elif action in linuxKeys:
                 press(linuxKeys[action])
             else:
-                hotkey('alt', 'f4')
+                # print("unknown button") # prevents people from injecting keys in url ^ .
+                pass
+
             return True
         except Exception:
             return False
@@ -100,3 +175,4 @@ class Linux(OS):
         return "LINUX"
 
 
+'''need to fix linux media controls'''
