@@ -78,9 +78,17 @@ class MAC(OS):
 class Linux(OS):
 
     def do_action(self, action):
+        linuxKeys = {            
+            'playpause' : 'space',
+            'volumeup' : 'up',
+            'prevtrack' : 'left',
+            'volumedown': 'down',
+            'nexttrack' : 'right',
+            'volumemute' : 'm'
+        }
         try:
             if action != "power":
-                press(action)
+                press(linuxKeys[action])
             else:
                 hotkey('alt', 'f4')
             return True
