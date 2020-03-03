@@ -117,9 +117,9 @@ def do_press():
             press(macKeys[key])
         elif key == 'power' and changeKeys:
             hotkey('command', 'q')
-            print("It's mac so pressing command q")
+            #print("It's mac so pressing command q")
         elif key == 'power':
-            print("It's not mac so pressing alt f4")
+            #print("It's not mac so pressing alt f4")
             hotkey('alt', 'f4')
         else:
             press(key)
