@@ -90,6 +90,12 @@ def inialize():
         print('\n' * 5 + '-' * 50)
 
     print("\n\nminimize this application\n\n")
+    print("Your ip:", ip)
+    print("Port:", port_num)
+    print("Is MacOs:", changeKeys)
+    print("OS:", find_os())
+    
+
     return (ip, port_num)
 
 
@@ -111,7 +117,9 @@ def do_press():
             press(macKeys[key])
         elif key == 'power' and changeKeys:
             hotkey('command', 'q')
+            print("It's mac so pressing command q")
         elif key == 'power':
+            print("It's not mac so pressing alt f4")
             hotkey('alt', 'f4')
         else:
             press(key)
