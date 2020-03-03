@@ -84,7 +84,7 @@ class MAC(OS):
 
     def controllVolume(self, vc):
 
-        if self.currentVolume > 7 or self.currentVolume < 1:   # adding restrections (apple scripts lets one map from 0 to 7)
+        if self.currentVolume > 7 or self.currentVolume < 1:   # adding restrictions (because of apple scripts err!)
             self.currentVolume = 0 if self.currentVolume < 1 else 7
 
         if vc == 'volumedown':
