@@ -11,10 +11,10 @@ from pyautogui import press, hotkey
 from flask import Flask, render_template, request
 from time import sleep
 import socket
-import qrcode
-from PIL import Image
+# import qrcode
+# from PIL import Image
 import operating_system
-
+import qrcode_terminal
 
 # Fall back for unix devices. If you have fix to this issue please sumbit a pull request.
 macKeys = {
@@ -63,8 +63,7 @@ def inialize():
     ask = input("do you want to see the qr Code? ")
 
     if ask.lower() == 'y' or ask.lower() == 'yes':
-        qrCode = qrcode.make(f"http://{ip}:{port_num}")
-        qrCode.show()
+        qrcode_terminal.draw(f'http://{ip}:{port_num}')
     else:
         print('-' * 50 + '\n' * 5)
         print(f"Type this in Apple watch app =>  {ip}:{port_num}")
