@@ -13,9 +13,7 @@ from time import sleep
 import socket
 import qrcode
 from PIL import Image
-import sys
-import os
-import platform
+import operating_system
 
 
 # Fall back for unix devices. If you have fix to this issue please sumbit a pull request.
@@ -28,23 +26,6 @@ macKeys = {
     'volumemute' : 'm'
 }
 
-def find_os():
-    '''
-    Returns OS info.
-    '''
-    os_name = ''
-    if sys.platform == 'win32':
-        os_name = "windows"
-    else:
-        if os.uname()[0] == 'Darwin':
-            os_name = "mac"
-        elif os.uname()[0] == 'Linux':
-            os_name = "linux"
-        else:
-            os_name = "not_windows"
-    return os_name
-# this enables / disables macOs fallback.
-
 
 def find_ip():
     '''
@@ -56,17 +37,17 @@ def find_ip():
     s.close()
     return ip
 
+myOS = operating_system.OS.get_os()
+
 # this get's printed if the program occurs a runtime error.
 issues = f'''
     Sorry, There seems to be a bug.
     Would you mind submitting an issue on the github repo?
-    Please include this => {sys.platform} | {find_ip()}
+    Please include this => {myOS.name} | {find_ip()}
     https://github.com/Aayush9029/Rifi/issues
     '''
 
 def inialize():
-    global changeKeys
-    changeKeys = False
     '''
     Initializes ip address, port.
     Asks user if they want to view qr code.
@@ -74,11 +55,6 @@ def inialize():
     '''
     ip = find_ip()
     port_num = 8000
-
-    if find_os() == 'mac':
-        changeKeys = True
-    elif find_os() == 'not_windows':
-        print(issues)
         
     ask = input("do you want to see the qr Code? ")
 
@@ -93,9 +69,7 @@ def inialize():
     print("\n\nminimize this application\n\n")
     print("Your ip:", ip)
     print("Port:", port_num)
-    print("Is MacOs:", changeKeys)
-    print("OS:", find_os())
-    
+    print("OS:", myOS.name)
 
     return (ip, port_num)
 
@@ -111,22 +85,8 @@ def index():
 @app.route("/press")
 def do_press():
     key = request.args.get("key", "None")
-    success = True
     
-    try:
-        if changeKeys and key != "power" and key in macKeys:
-            press(macKeys[key])
-        elif key == 'power' and changeKeys:
-            hotkey('command', 'q')
-            #print("It's mac so pressing command q")
-        elif key == 'power':
-            #print("It's not mac so pressing alt f4")
-            hotkey('alt', 'f4')
-        else:
-            press(key)
-    except:
-        success = False
-
+    success = myOS.do_action(key)
     # print("_________>   ",changeKeys, key)
 
     return {"press": success}
