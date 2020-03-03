@@ -14,7 +14,8 @@ import socket
 import qrcode
 from PIL import Image
 import sys
-from os import uname
+import os
+import platform
 
 
 # Fall back for unix devices. If you have fix to this issue please sumbit a pull request.
@@ -35,9 +36,9 @@ def find_os():
     if sys.platform == 'win32':
         os_name = "windows"
     else:
-        if uname()[0] == 'Darwin':
+        if os.uname()[0] == 'Darwin':
             os_name = "mac"
-        elif uname()[0] == 'Linux':
+        elif os.uname()[0] == 'Linux':
             os_name = "linux"
         else:
             os_name = "not_windows"
