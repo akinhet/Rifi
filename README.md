@@ -26,8 +26,7 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
 
 Complie the watchApp/Remote Controller.xcodeproj and install in apple watch
 
-*will add a universal in-browser app soon*
-
+Or Scan qr code to get acces to web interface.
 
 ### Usage:
 
@@ -49,7 +48,7 @@ Complie the watchApp/Remote Controller.xcodeproj and install in apple watch
 
 
 
-Basically this transforms an Apple Watch to a virtual remote enabling it to controll multimedia.
+Basically this transforms an Apple Watch or a phone to a virtual remote enabling it to controll multimedia.
 
 Uses:
 
