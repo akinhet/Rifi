@@ -11,8 +11,6 @@ from pyautogui import press, hotkey
 from flask import Flask, render_template, request
 from time import sleep
 import socket
-# import qrcode
-# from PIL import Image
 import operating_system
 import qrcode_terminal
 
