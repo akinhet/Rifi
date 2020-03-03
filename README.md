@@ -11,8 +11,9 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
   Watch Connect and Player View</br>
   <img src="Images/wc.png" width="128" >
   <img src="Images/wp.png" width="128" ></br>
-     Phone Web Controler View</br>
+     iOS Web Controler View And Android OS Web Controller View</br>
   <img src="Images/ips.png" width="256">
+  <img src="Images/pps.png" width="256">
 </br>
 
 ---
