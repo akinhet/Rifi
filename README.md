@@ -26,8 +26,7 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
 
 Complie the watchApp/Remote Controller.xcodeproj and install in apple watch
 
-*will add a universal in-browser app soon*
-
+Or Scan qr code to get acces to web interface.
 
 ### Usage:
 
