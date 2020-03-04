@@ -62,12 +62,7 @@ Uses:
 
 ---
 
-To Do:
-- Create a separate UI elements for controlling system media controls. *fixes issue #2*
-- Create a power and mute button.
-- Create a keyboard movement button.
----
   
-
+---
 Thanks a lot to:
 - [kvosbur](https://github.com/kvosbur)
