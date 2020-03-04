@@ -41,7 +41,6 @@ def find_ip():
 
 myOS = operating_system.OS.get_os()
 
-# this get's printed if the program occurs a runtime error.
 issues = f'''
     Sorry, There seems to be a bug.
     Would you mind submitting an issue on the github repo?
