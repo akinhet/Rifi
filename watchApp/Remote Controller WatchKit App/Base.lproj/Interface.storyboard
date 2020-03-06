@@ -11,8 +11,30 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Remote_Controller_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <button alignment="left" id="GDu-yz-QRt">
-                            <group key="contentGroup" width="1" height="24" alignment="left" id="9Bw-67-Sjg"/>
+                        <button width="1" height="9" alignment="left" id="Sto-0T-7vw">
+                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </button>
+                        <group width="1" height="25" alignment="left" id="AB2-qo-YaM">
+                            <items>
+                                <button width="25" height="0.84999999999999998" alignment="left" backgroundImage="speaker.slash" catalog="system" id="3n7-G2-Ogf">
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <connections>
+                                        <action selector="mute" destination="AgC-eL-Hgc" id="hvQ-at-kou"/>
+                                    </connections>
+                                </button>
+                                <button width="0.59999999999999998" height="1" alignment="left" id="8Gw-Re-4hC">
+                                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </button>
+                                <button width="22" height="0.84999999999999998" alignment="left" backgroundImage="power" catalog="system" id="9Od-wk-Ssr">
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <connections>
+                                        <action selector="power" destination="AgC-eL-Hgc" id="SPA-cj-2sd"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <button width="1" height="5" alignment="left" id="E9s-HR-WkD">
+                            <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         </button>
                         <group width="1" height="30" alignment="left" id="NXB-kG-ezg">
                             <items>
@@ -36,7 +58,7 @@
                                 </button>
                             </items>
                         </group>
-                        <group width="136" height="22" alignment="left" id="MKH-pU-c1l"/>
+                        <group width="136" height="13" alignment="left" id="MKH-pU-c1l"/>
                         <slider width="1" height="33" alignment="left" continuous="YES" value="5" maximum="50" steps="50" id="Pd2-rt-h1s">
                             <connections>
                                 <action selector="volumeSlider:" destination="AgC-eL-Hgc" id="yga-uH-mrd"/>
@@ -45,8 +67,8 @@
                         <group width="136" height="27" alignment="left" id="hT3-RW-3nn"/>
                         <group width="1" height="237" alignment="left" hidden="YES" layout="vertical" id="c8l-Dc-8QQ">
                             <items>
-                                <label width="1" height="22" alignment="left" text="Your IP and Port" textAlignment="center" id="Dfw-Wu-yr0"/>
-                                <label width="1" height="25" alignment="left" text="eg: 192.168.1.3:5932" textAlignment="center" id="eFF-Hd-XzV">
+                                <label width="1" height="22" alignment="left" text="Your IP" textAlignment="center" id="Dfw-Wu-yr0"/>
+                                <label width="1" height="25" alignment="left" text="eg: 192.168.1.3" textAlignment="center" id="eFF-Hd-XzV">
                                     <color key="textColor" red="1" green="0.59999999999999998" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="font" type="system" pointSize="13"/>
                                 </label>
@@ -121,15 +143,7 @@
                                 </group>
                                 <group width="1" height="30" alignment="left" id="tqF-1E-wSJ">
                                     <items>
-                                        <button width="0.33329999999999999" height="1" alignment="left" title=":" id="66A-KJ-Cbk">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <color key="backgroundColor" red="0.48633139760182298" green="0.21749042561829307" blue="0.59728633952054799" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <fontDescription key="font" type="boldSystem" pointSize="20"/>
-                                            <connections>
-                                                <action selector="btnColon" destination="AgC-eL-Hgc" id="98C-aw-GeQ"/>
-                                            </connections>
-                                        </button>
-                                        <button width="0.33329999999999999" height="1" alignment="left" title="." id="FTO-SI-Clf">
+                                        <button width="0.5" height="1" alignment="left" title="." id="FTO-SI-Clf">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="backgroundColor" red="0.48633139760182298" green="0.21749042561829307" blue="0.59728633952054799" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <fontDescription key="font" type="boldSystem" pointSize="20"/>
@@ -137,7 +151,7 @@
                                                 <action selector="btnPeriod" destination="AgC-eL-Hgc" id="ueQ-mz-cc4"/>
                                             </connections>
                                         </button>
-                                        <button width="0.33300000000000002" height="1" alignment="left" title="0" id="FXp-qr-0Xp">
+                                        <button width="0.5" height="1" alignment="left" title="0" id="FXp-qr-0Xp">
                                             <color key="backgroundColor" red="0.18982297179999999" green="0.27699822190000001" blue="0.349029541" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <connections>
                                                 <action selector="btn0" destination="AgC-eL-Hgc" id="ScH-xj-ZDe"/>
@@ -181,12 +195,14 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="34" y="209.5"/>
+            <point key="canvasLocation" x="34" y="198.5"/>
         </scene>
     </scenes>
     <resources>
         <image name="backward.fill" catalog="system" width="64" height="38"/>
         <image name="forward.fill" catalog="system" width="64" height="38"/>
         <image name="playpause" catalog="system" width="64" height="40"/>
+        <image name="power" catalog="system" width="64" height="62"/>
+        <image name="speaker.slash" catalog="system" width="64" height="62"/>
     </resources>
 </document>

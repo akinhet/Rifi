@@ -73,11 +73,7 @@ class InterfaceController: WKInterfaceController {
         url += "9"
         IpPortLabel.setText(url)
     }
-    
-    @IBAction func btnColon() {
-        url += ":"
-        IpPortLabel.setText(url)
-    }
+
     
     @IBAction func btnPeriod() {
         url += "."
@@ -99,10 +95,11 @@ class InterfaceController: WKInterfaceController {
     @IBAction func changeIP() { //note this is for the donw button (green done button)
         InputGroup.setHidden(true)
         showButton.setHidden(false)
-        newUrl = "http://"+url;
+        newUrl = "http://" + url;
         url = newUrl;
-        url += "/?key=";
+        url += ":8000/?key=";
         newUrl = url;
+        print(newUrl)
     }
 
     func PostValue(key:String){
@@ -145,6 +142,14 @@ class InterfaceController: WKInterfaceController {
         PostValue(key: "enter")
     }
     
+    @IBAction func mute() {
+        PostValue(key: "volumemute")
+
+    }
+    @IBAction func power() {
+        PostValue(key: "power")
+
+    }
     var initialValue  = 0.0
     @IBAction func volumeSlider(_ value: Double) {
         if (value < initialValue){
