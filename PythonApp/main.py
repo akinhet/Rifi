@@ -7,6 +7,12 @@ https://github.com/Aayush9029
 
 '''
 
+'''
+https://askubuntu.com/questions/689521/control-volume-using-python-script
+https://stackoverflow.com/questions/20828752/python-change-master-application-volume
+https://stackoverflow.com/questions/2565204/adjust-osx-system-audio-volume-in-python
+'''
+
 from pyautogui import press, hotkey
 from flask import Flask, render_template, request
 from time import sleep

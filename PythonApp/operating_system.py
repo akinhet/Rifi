@@ -8,6 +8,9 @@ class OS:
 
     NAME = "OS"
 
+    def __init__(self):
+        self.volume = 0
+
     @abc.abstractmethod
     def do_action(self, action) -> bool:
         '''
@@ -17,6 +20,22 @@ class OS:
 
     @abc.abstractmethod
     def name(self):
+        '''
+        This returns the name of the OS in question
+        '''
+
+
+    def increment_volume(self, incrementValue):
+        newValue = self.volume = incrementValue
+        if newValue < 0:
+            newValue = 0
+        elif newValue > 100:
+            newValue = 100
+
+        self.volume = newValue
+
+    @abc.abstractmethod
+    def set_volume(self):
         '''
         This returns the name of the OS in question
         '''
@@ -142,6 +161,23 @@ class MAC(OS):
 
 
 class Linux(OS):
+
+    def __init__(self):
+        # an import only used for linux users
+        super(Linux, self).__init__()
+        try:
+            import alsaaudio
+        except ImportError:
+            print("You must install alsaaudio module to run on linux")
+            print("try running: sudo apt-get install python-alsaaudio")
+            exit(0)
+
+        m = alsaaudio.Mixer()
+        self.volume = int(m.getvolume()[0])
+
+    def set_volume(self):
+        m = alsaaudio.Mixer()
+        m.setvolume(self.volume)
 
     def do_action(self, action):
         linuxKeys = {            
