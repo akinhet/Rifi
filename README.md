@@ -61,7 +61,5 @@ Uses:
 
 ---
 
-  
----
-Thanks a lot to:
+*Thanks a lot to*:
 - [kvosbur](https://github.com/kvosbur)
