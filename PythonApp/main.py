@@ -84,15 +84,18 @@ ip, port_num = inialize()
 
 app = Flask(__name__)
 
+VolumeSliderStep = 4
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", volume=myOS.get_volume(), volumeSliderStep=VolumeSliderStep)
 
 @app.route("/press")
 def do_press():
-    key = request.args.get("key", "None")
+    key = request.args.get("key", None)
+    volume = request.args.get("volume", None)
     
-    success = myOS.do_action(key)
+    success = myOS.do_action(key, volume)
     # print("_________>   ",changeKeys, key)
 
     return {"press": success}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta key="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rifi</title>
-    <link rel="stylesheet" href="../static/style.css" />
+    <link rel="stylesheet" href="../static/style_1_1.css" />
   </head>
   
   <script>
@@ -20,6 +20,24 @@ function mysubmit(key) {
     // console.log(data);
   });
 }
+
+function doSlider(element){
+  document.getElementById("volumeValue").innerHTML = "Volume: " + element.value;
+
+  fetch('./press?key=setvolume&volume=' + element.value)
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+	if (! data.press){
+		alert("Error in processing button");
+	}
+    // console.log(data);
+  });
+}
+
+
+
   </script>
   <body>
 <div class="topLayout">
@@ -35,6 +53,11 @@ function mysubmit(key) {
       <button onclick="mysubmit('prevtrack')"  class="three cta"></button>
       <button onclick="mysubmit('volumedown')"  class="five cta"></button>
       <button onclick="mysubmit('playpause')" class="six cta"></button>
+    </div>
+
+    <div class="slidecontainer">
+      <h1 id="volumeValue">Volume: {{ volume }}</h1>
+      <input type="range" step="{{ volumeSliderStep }}" min="0" max="100" value="{{ volume }}" class="slider" id="myRange" oninput="doSlider(this);">
     </div>
 
     <div class="multimedia_wrapper">

@@ -7,12 +7,10 @@ import subprocess
 class OS:
 
     NAME = "OS"
-
-    def __init__(self):
-        self.volume = 0
+    volume = 0
 
     @abc.abstractmethod
-    def do_action(self, action) -> bool:
+    def do_action(self, action, volume) -> bool:
         '''
         This method is meant to complete any given action for the corresponding os
         action - string of action to take
@@ -24,21 +22,14 @@ class OS:
         This returns the name of the OS in question
         '''
 
-
-    def increment_volume(self, incrementValue):
-        newValue = self.volume = incrementValue
-        if newValue < 0:
-            newValue = 0
-        elif newValue > 100:
-            newValue = 100
-
-        self.volume = newValue
-
     @abc.abstractmethod
     def set_volume(self):
         '''
         This returns the name of the OS in question
         '''
+
+    def get_volume(self):
+        return self.volume
 
     @staticmethod
     def get_os():
@@ -55,7 +46,30 @@ class OS:
 
 class Windows(OS):
 
-    def do_action(self, action):
+    def __init__(self):
+        # an import only used for windows users
+        from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+        from ctypes import cast, POINTER
+        from comtypes import CLSCTX_ALL
+
+        self.devices = AudioUtilities.GetSpeakers()
+        interface = self.devices.Activate(
+            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volumeControl = cast(interface, POINTER(IAudioEndpointVolume))
+        self.volume = round(100 * volumeControl.GetMasterVolumeLevelScalar())
+
+    def set_volume(self):
+        # an import only used for windows users
+        from pycaw.pycaw import IAudioEndpointVolume
+        from ctypes import cast, POINTER
+        from comtypes import CLSCTX_ALL
+
+        interface = self.devices.Activate(
+            IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volumeControl = cast(interface, POINTER(IAudioEndpointVolume))
+        volumeControl.SetMasterVolumeLevelScalar(self.volume / 100, None)
+
+    def do_action(self, action, volume):
 
         windowKeys = {            
         'playpause' : 'playpause',
@@ -76,12 +90,17 @@ class Windows(OS):
                 hotkey('alt', 'f4')
             elif action in windowKeys:
                 press(windowKeys[action])
+            elif action == "setvolume":
+                self.volume = int(volume)
+                self.set_volume()
             else:
                 pass
                 # print("unknown button") # prevents people from injecting keys in url ^ .
 
             return True
         except Exception:
+            import traceback
+            traceback.print_exc()
             return False
 
     @property
@@ -92,27 +111,35 @@ class Windows(OS):
 class MAC(OS):
 
     isMuted = False
-    currentVolume = 5
+
+    def __init__(self):
+        self.currentVolumeInfo()
 
     def currentVolumeInfo(self):
         cmd = "osascript -e 'output volume of (get volume settings)'"
         s = subprocess.run(cmd, shell=True, capture_output=True)
         print(s)
-        self.currentVolume = int(s.stdout.decode().split()[0]) // 10  # mapping value  of 0-100 to 0-10.
+        self.volume = int(s.stdout.decode().split()[0])
 
+    def set_volume(self):
+        # used this url as reference https://osxdaily.com/2007/04/28/change-the-system-volume-from-the-command-line/
+        os.system(f"osascript -e 'set volume output volume {self.volume}'")
 
-    def controllVolume(self, vc):
-
+    def controlVolume(self, vc):
+        '''
+        # don't think this is necessary anymore
         if self.currentVolume > 7 or self.currentVolume < 1:   # adding restrictions (because of apple scripts err!)
             self.currentVolume = 0 if self.currentVolume < 1 else 7
+        '''
 
         if vc == 'volumedown':
-            self.currentVolume -= 1
+            self.volume -= 4
 
         if vc == 'volumeup':
-            self.currentVolume += 1
-            
-        os.system(f"osascript -e 'set volume {self.currentVolume}'")
+            self.volume -= 4
+
+        self.set_volume()
+
         
 
     def muteMac(self): # Mutes and unmutes fix.
@@ -125,7 +152,7 @@ class MAC(OS):
             self.isMuted = False
 
 
-    def do_action(self, action):
+    def do_action(self, action, volume):
 
         # prevents people from injecting keys in url.
         macKeys = { 
@@ -145,9 +172,12 @@ class MAC(OS):
             elif action == 'volumemute':
                 self.muteMac()
             elif action == 'volumeup' or action == 'volumedown':
-                self.controllVolume(action)
+                self.controlVolume(action)
             elif action in macKeys:
                 press(macKeys[action])
+            elif action == "setvolume":
+                self.volume = int(volume)
+                self.set_volume()
             else:
                 # print("unknown button") # prevents people from injecting keys in url ^ .
                 pass
@@ -164,7 +194,6 @@ class Linux(OS):
 
     def __init__(self):
         # an import only used for linux users
-        super(Linux, self).__init__()
         try:
             import alsaaudio
         except ImportError:
@@ -179,7 +208,7 @@ class Linux(OS):
         m = alsaaudio.Mixer()
         m.setvolume(self.volume)
 
-    def do_action(self, action):
+    def do_action(self, action, volume):
         linuxKeys = {            
             'playpause' : 'space',
             'volumeup' : 'up',
@@ -198,6 +227,9 @@ class Linux(OS):
                 hotkey('alt', 'f4')
             elif action in linuxKeys:
                 press(linuxKeys[action])
+            elif action == "setvolume":
+                self.volume = int(volume)
+                self.set_volume()
             else:
                 # print("unknown button") # prevents people from injecting keys in url ^ .
                 pass
