@@ -165,6 +165,7 @@ class MAC(OS):
             'left':'left',
             'space':'space'     
         }
+        # need to use this for media keys https://stackoverflow.com/questions/11045814/emulate-media-key-press-on-mac
         try:
             # print("action: ", action)
             if action == 'power':
@@ -198,44 +199,54 @@ class Linux(OS):
             import alsaaudio
         except ImportError:
             print("You must install alsaaudio module to run on linux")
-            print("try running: sudo apt-get install python-alsaaudio")
+            print("try running: sudo apt-get install libasound2-dev")
+            print("Followed by: pip install pyalsaaudio")
             exit(0)
 
         m = alsaaudio.Mixer()
         self.volume = int(m.getvolume()[0])
 
     def set_volume(self):
+        import alsaaudio
         m = alsaaudio.Mixer()
         m.setvolume(self.volume)
 
     def do_action(self, action, volume):
         linuxKeys = {            
-            'playpause' : 'space',
-            'volumeup' : 'up',
-            'prevtrack' : 'left',
-            'volumedown': 'down',
-            'nexttrack' : 'right',
-            'volumemute' : 'm',
+            'playpause' : 'XF86AudioPlay',
+            'volumeup' : 'XF86AudioRaiseVolume',
+            'prevtrack' : 'XF86AudioPrev',
+            'volumedown': 'XF86AudioLowerVolume',
+            'nexttrack' : 'XF86AudioNext',
+            'volumemute' : 'XF86AudioMute',
             'down': 'down',
             'up': 'up',
             'right':'right',
             'left':'left',
             'space':'space'
         }
+
+        needCommandLine = ['playpause', "volumeup", "prevtrack", "volumedown", "nexttrack", "volumemute"]
+
         try:
             if action == 'power':
                 hotkey('alt', 'f4')
+            elif action in needCommandLine:
+                cmd = "xdotool key " + linuxKeys[action]
+                os.system(cmd)
             elif action in linuxKeys:
                 press(linuxKeys[action])
             elif action == "setvolume":
                 self.volume = int(volume)
-                self.set_volume()
+                self.set_volume()  # not that this does not bring up interface showing volume change.
             else:
                 # print("unknown button") # prevents people from injecting keys in url ^ .
                 pass
 
             return True
         except Exception:
+            import traceback
+            traceback.print_exc()
             return False
 
     @property
