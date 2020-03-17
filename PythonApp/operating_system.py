@@ -4,6 +4,8 @@ import sys
 import os
 import subprocess
 
+VolumeStep = 4
+
 class OS:
 
     NAME = "OS"
@@ -133,12 +135,43 @@ class MAC(OS):
         '''
 
         if vc == 'volumedown':
-            self.volume -= 4
+            self.volume -= VolumeStep
 
         if vc == 'volumeup':
-            self.volume -= 4
+            self.volume -= VolumeStep
 
         self.set_volume()
+
+
+    def doMedia(self, key):
+        relation = {'playpause': 16, 'prevtrack': 18, 'nexttrack': 17}
+        try:
+            import Quartz
+        except:
+            print("please install os specific Quartz library using pip")
+            return
+
+        def HIDPostAuxKey(key):
+            def doKey(down):
+                ev = Quartz.NSEvent.otherEventWithType_location_modifierFlags_timestamp_windowNumber_context_subtype_data1_data2_(
+                    NSSystemDefined,  # type
+                    (0, 0),  # location
+                    0xa00 if down else 0xb00,  # flags
+                    0,  # timestamp
+                    0,  # window
+                    0,  # ctx
+                    8,  # subtype
+                    (key << 16) | ((0xa if down else 0xb) << 8),  # data1
+                    -1  # data2
+                )
+                cev = ev.CGEvent()
+                Quartz.CGEventPost(0, cev)
+
+            doKey(True)
+            doKey(False)
+
+        HIDPostAuxKey(relation[key])
+
 
         
 
@@ -165,6 +198,7 @@ class MAC(OS):
             'left':'left',
             'space':'space'     
         }
+        differentMedia = ['playpause', 'prevtrack', 'nexttrack']
         # need to use this for media keys https://stackoverflow.com/questions/11045814/emulate-media-key-press-on-mac
         try:
             # print("action: ", action)
@@ -174,6 +208,8 @@ class MAC(OS):
                 self.muteMac()
             elif action == 'volumeup' or action == 'volumedown':
                 self.controlVolume(action)
+            elif action in differentMedia:
+                self.doMedia(action)
             elif action in macKeys:
                 press(macKeys[action])
             elif action == "setvolume":
@@ -252,6 +288,3 @@ class Linux(OS):
     @property
     def name(self):
         return "LINUX"
-
-
-'''need to fix linux media controls'''
