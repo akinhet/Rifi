@@ -7,6 +7,12 @@ https://github.com/Aayush9029
 
 '''
 
+'''
+https://askubuntu.com/questions/689521/control-volume-using-python-script
+https://stackoverflow.com/questions/20828752/python-change-master-application-volume
+https://stackoverflow.com/questions/2565204/adjust-osx-system-audio-volume-in-python
+'''
+
 from pyautogui import press, hotkey
 from flask import Flask, render_template, request
 from time import sleep
@@ -78,18 +84,26 @@ ip, port_num = inialize()
 
 app = Flask(__name__)
 
+VolumeSliderStep = 4
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", volume=myOS.get_volume(), volumeSliderStep=VolumeSliderStep)
 
 @app.route("/press")
 def do_press():
-    key = request.args.get("key", "None")
+    key = request.args.get("key", None)
+    volume = request.args.get("volume", None)
     
-    success = myOS.do_action(key)
+    success = myOS.do_action(key, volume)
     # print("_________>   ",changeKeys, key)
 
     return {"press": success}
+
+
+@app.route("/getvolume")
+def get_volume():
+    return{"volume": myOS.get_volume()}
 
 
 # change the port to any number 8000 to 65534
