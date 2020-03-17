@@ -19,7 +19,7 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
 ---
 **Installation**
 
- `git clone "repo"` or Download .zip/.tar file from the [releases](https://github.com/Aayush9029/Rifi/releases).
+ git clone [repo](https://github.com/Aayush9029/Rifi.git) or Download .zip/.tar file from the [releases](https://github.com/Aayush9029/Rifi/releases).
 
  `cd PythonApp`
 
