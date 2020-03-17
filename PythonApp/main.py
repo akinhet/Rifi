@@ -101,5 +101,10 @@ def do_press():
     return {"press": success}
 
 
+@app.route("/getvolume")
+def get_volume():
+    return{"volume": myOS.get_volume()}
+
+
 # change the port to any number 8000 to 65534
 app.run(host="0.0.0.0", port=port_num)

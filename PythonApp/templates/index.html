@@ -16,9 +16,26 @@ function mysubmit(key) {
   .then((data) => {
 	if (! data.press){
 		alert("Error in processing button");
+	}else{
+	  updateVolume();
 	}
     // console.log(data);
   });
+}
+
+function updateVolume(){
+  fetch('./getvolume')
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+	if (data.volume >= 0 && data.volume <= 100){
+		document.getElementById("myRange").value = "" + data.volume;
+        document.getElementById("volumeValue").innerHTML = "Volume: " + data.volume;
+	}
+    // console.log(data);
+  });
+
 }
 
 function doSlider(element){

@@ -50,11 +50,16 @@ class Windows(OS):
 
     def __init__(self):
         # an import only used for windows users
-        from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-        from ctypes import cast, POINTER
-        from comtypes import CLSCTX_ALL
+        from pycaw.pycaw import AudioUtilities
 
         self.devices = AudioUtilities.GetSpeakers()
+        self.get_current_volume()
+
+
+    def get_current_volume(self):
+        from pycaw.pycaw import IAudioEndpointVolume
+        from ctypes import cast, POINTER
+        from comtypes import CLSCTX_ALL
         interface = self.devices.Activate(
             IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
         volumeControl = cast(interface, POINTER(IAudioEndpointVolume))
@@ -98,6 +103,8 @@ class Windows(OS):
             else:
                 pass
                 # print("unknown button") # prevents people from injecting keys in url ^ .
+
+            self.get_current_volume()
 
             return True
         except Exception:
@@ -218,6 +225,7 @@ class MAC(OS):
             else:
                 # print("unknown button") # prevents people from injecting keys in url ^ .
                 pass
+            self.currentVolumeInfo()
             return True
         except Exception:
             return False
@@ -239,6 +247,10 @@ class Linux(OS):
             print("Followed by: pip install pyalsaaudio")
             exit(0)
 
+        self.get_volume()
+
+    def get_volume(self):
+        import alsaaudio
         m = alsaaudio.Mixer()
         self.volume = int(m.getvolume()[0])
 
@@ -278,6 +290,7 @@ class Linux(OS):
             else:
                 # print("unknown button") # prevents people from injecting keys in url ^ .
                 pass
+            self.get_volume()
 
             return True
         except Exception:
