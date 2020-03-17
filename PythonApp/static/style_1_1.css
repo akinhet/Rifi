@@ -1,6 +1,6 @@
-  * {
-      touch-action: manipulation;
-  }
+* {
+  touch-action: manipulation;
+}
 
 body {
   background-color: #f1f3f6;
@@ -10,8 +10,7 @@ body {
   background-color: none;
 }
 .wrapper {
-  /* margin-top: 20%; */
-  padding: 50px;
+  padding: 75px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
@@ -27,10 +26,10 @@ body {
 
 .slider {
   -webkit-appearance: none;
-  width: 90%;
-  height: 40px;
+  width: 85%;
+  height: 30px;
   border-radius: 20px;
-  background: #d3d3d3;
+  background: #cfcfcf;
   outline: none;
   opacity: 0.7;
   -webkit-transition: .2s;
@@ -41,18 +40,18 @@ body {
   -webkit-appearance: none;
   appearance: none;
   width: 50px;
-  height: 70px;
+  height: 50px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: rgb(0, 0, 0);
   color: black;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 30px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: #4CAF50;
+  background: rgb(0, 0, 0);
   color: black;
   cursor: pointer;
 }
@@ -61,15 +60,16 @@ body {
   opacity: 1;
 }
 
-.two {
+/* .two {
+  display: none;
   background-size: 60%;
   background-image: url("../static/vu.png");
   grid-column: 2;
   grid-row: 1;
-}
+} */
 .three {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1;
   background-size: 50%;
   background-image: url("../static/fast.png");
 
@@ -80,19 +80,20 @@ body {
   background-size: 50%;
   background-image: url("../static/fast.png");
   grid-column: 3;
-  grid-row: 2;
+  grid-row: 1;
 }
-.five {
+/* .five {
+  display: none;
   background-size: 60%;
   background-image: url("../static/dv.png");
   grid-column: 2;
   grid-row: 3;
-}
+} */
 .six {
   background-size: 80%;
   background-image: url("../static/pause.png");
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
 }
 
 
@@ -116,6 +117,7 @@ body {
 }
 
 .multimedia_wrapper{
+  margin-top: 50px;
   display: grid;
   padding: 50px;
   grid-template-columns: repeat(5,1fr);
@@ -124,6 +126,7 @@ body {
 }
 
 .topLayout{
+  margin-top: 25px;
   display: grid;
   padding: 100px;
   grid-template-columns: repeat(4,1fr);
@@ -169,5 +172,7 @@ body {
   background-image: url("../static/enter.png");
 }
 
-
-/* <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> */
+#volumeValue{
+  opacity: 0;
+  transition: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}

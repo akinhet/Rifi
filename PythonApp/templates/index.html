@@ -8,6 +8,15 @@
   </head>
   
   <script>
+
+
+function sleep (time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
+
+
 function mysubmit(key) {
 	fetch('./press?key=' + key)
   .then((response) => {
@@ -39,6 +48,13 @@ function updateVolume(){
 }
 
 function doSlider(element){
+  
+
+  document.getElementById("volumeValue").style.opacity = "1"
+  sleep(1000).then(() => {
+    document.getElementById("volumeValue").style.opacity = "0"
+
+});
   document.getElementById("volumeValue").innerHTML = "Volume: " + element.value;
 
   fetch('./press?key=setvolume&volume=' + element.value)
@@ -65,10 +81,10 @@ function doSlider(element){
     <div class="wrapper">
       <!-- <button onclick="mysubmit('volumemute')"    class="mute cta" ></button> -->
 
-      <button onclick="mysubmit('volumeup')"    class="two cta" ></button>
+      <!-- <button onclick="mysubmit('volumeup')"    class="two cta" ></button> -->
       <button onclick="mysubmit('nexttrack')" class="four cta"></button>   
       <button onclick="mysubmit('prevtrack')"  class="three cta"></button>
-      <button onclick="mysubmit('volumedown')"  class="five cta"></button>
+      <!-- <button onclick="mysubmit('volumedown')"  class="five cta"></button> -->
       <button onclick="mysubmit('playpause')" class="six cta"></button>
     </div>
 
