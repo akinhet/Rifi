@@ -5,7 +5,7 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
 
 ---
 
-##  [![Watch OS version](https://img.shields.io/badge/WatchOS-6.1-skyblue?style=flat-square)](https://www.apple.com/ca/watchos/watchos-6/)   [![python 3.8](https://img.shields.io/badge/Python-3.8.1-brightred?style=flat-square)](https://www.python.org/) [![ask me why](https://img.shields.io/badge/Rifi-v1.4-purple?style=flat-square)](http://aayush.wtf) ![Forks](https://img.shields.io/github/forks/Aayush9029/Rifi?label=Forks&style=flat-square)  ![Stars](https://img.shields.io/github/stars/Aayush9029/rifi?color=orange&style=flat-square)
+##  [![Watch OS version](https://img.shields.io/badge/WatchOS-6.1-skyblue?style=flat-square)](https://www.apple.com/ca/watchos/watchos-6/)   [![python 3.8](https://img.shields.io/badge/Python-3.8.1-brightred?style=flat-square)](https://www.python.org/) [![ask me why](https://img.shields.io/badge/Rifi-v1.4-purple?style=flat-square)](http://aayush.wtf) ![Forks](https://img.shields.io/github/forks/Aayush9029/Rifi?label=Forks&style=flat-square)  ![Stars](https://img.shields.io/github/stars/Aayush9029/rifi?color=orange&style=flat-square) [![Xcode 11](https://img.shields.io/badge/Xcode-11-blue?style=flat-square)](https://www.apple.com/) [![iOS 13](https://img.shields.io/badge/iOS-13-pink?style=flat-square)](https://www.apple.com/ios/)
 
   Watch Connect and Player View</br>
   <img src="Images/wc.png" width="128" >
