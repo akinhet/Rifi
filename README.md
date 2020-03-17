@@ -13,8 +13,7 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
   
   iOS APP and Web Controller View</br>
   
-  <img src="Images/ipapp.png" width="256">
-  <img src="Images/ips.png" width="256">
+  <img src="Images/ipapp.png" width="256"> <img src="Images/ips.png" width="256"></br>
   Android Web Controller View</br>
   <img src="Images/pps.png" width="256"></br>
 
