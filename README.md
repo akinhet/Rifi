@@ -61,6 +61,17 @@ Uses:
 - While playing music to skip tracks and since the keystrokes are configurable they can be use to initiate custom shortcuts.
 
 ---
+### How to install iOS and watchOS app?
+
+- Clone the repo
+- Open xcodeproj file for iOS_Rifi
+  - Change the bundle id and team 
+  - Connect your iphone and run
+- Open xcodeproj file for applewatchApp
+  - Connect you iphone and apple watch 
+  - Change the bundle id and team
+  - Run
+
 
 *Thanks a lot to*:
 - [kvosbur](https://github.com/kvosbur)
