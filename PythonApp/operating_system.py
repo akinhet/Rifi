@@ -4,7 +4,8 @@ import sys
 import os
 import subprocess
 
-VolumeStep = 4
+VOLUMESTEP = 4
+
 
 class OS:
 
@@ -55,7 +56,6 @@ class Windows(OS):
         self.devices = AudioUtilities.GetSpeakers()
         self.get_current_volume()
 
-
     def get_current_volume(self):
         from pycaw.pycaw import IAudioEndpointVolume
         from ctypes import cast, POINTER
@@ -78,18 +78,18 @@ class Windows(OS):
 
     def do_action(self, action, volume):
 
-        windowKeys = {            
-        'playpause' : 'playpause',
-        'volumeup' : 'volumeup',
-        'prevtrack' : 'prevtrack',
-        'volumedown': 'volumedown',
-        'nexttrack' : 'nexttrack',
-        'volumemute' : 'volumemute',
-        'down': 'down',
-        'up': 'up',
-        'right':'right',
-        'left':'left',
-        'space':'space' 
+        windowKeys = {
+            'playpause': 'playpause',
+            'volumeup': 'volumeup',
+            'prevtrack': 'prevtrack',
+            'volumedown': 'volumedown',
+            'nexttrack': 'nexttrack',
+            'volumemute': 'volumemute',
+            'down': 'down',
+            'up': 'up',
+            'right': 'right',
+            'left': 'left',
+            'space': 'space'
         }
 
         try:
@@ -131,7 +131,6 @@ class MAC(OS):
         self.volume = int(s.stdout.decode().split()[0])
 
     def set_volume(self):
-        # used this url as reference https://osxdaily.com/2007/04/28/change-the-system-volume-from-the-command-line/
         os.system(f"osascript -e 'set volume output volume {self.volume}'")
 
     def controlVolume(self, vc):
@@ -142,15 +141,18 @@ class MAC(OS):
         '''
 
         if vc == 'volumedown':
-            self.volume -= VolumeStep
+            self.volume -= VOLUMESTEP
 
         if vc == 'volumeup':
-            self.volume -= VolumeStep
+            self.volume -= VOLUMESTEP
 
         self.set_volume()
 
-
     def doMedia(self, key):
+        '''
+        Quartz seems to have issues so this feature is disabled for now
+        (if you want to enable comment line 208 and uncomment 209)
+        '''
         relation = {'playpause': 16, 'prevtrack': 18, 'nexttrack': 17}
         try:
             import Quartz
@@ -179,10 +181,7 @@ class MAC(OS):
 
         HIDPostAuxKey(relation[key])
 
-
-        
-
-    def muteMac(self): # Mutes and unmutes fix.
+    def muteMac(self):  # Mutes and unmutes fix.
 
         if not self.isMuted:
             os.system("osascript -e 'set volume output muted true'")
@@ -191,22 +190,22 @@ class MAC(OS):
             os.system("osascript -e 'set volume output muted false'")
             self.isMuted = False
 
-
     def do_action(self, action, volume):
 
         # prevents people from injecting keys in url.
-        macKeys = { 
+        macKeys = {
             'playpause': 'space',
             'prevtrack': 'left',
             'nexttrack': 'right',
             'down': 'down',
             'up': 'up',
-            'right':'right',
-            'left':'left',
-            'space':'space'     
+            'right': 'right',
+            'left': 'left',
+            'space': 'space'
         }
-        differentMedia = ['playpause', 'prevtrack', 'nexttrack']
-        # need to use this for media keys https://stackoverflow.com/questions/11045814/emulate-media-key-press-on-mac
+        # differentMedia = ['playpause', 'prevtrack', 'nexttrack']
+        differentMedia = []  # temp fix
+
         try:
             # print("action: ", action)
             if action == 'power':
@@ -219,6 +218,7 @@ class MAC(OS):
                 self.doMedia(action)
             elif action in macKeys:
                 press(macKeys[action])
+                print(macKeys[action])
             elif action == "setvolume":
                 self.volume = int(volume)
                 self.set_volume()
@@ -260,21 +260,22 @@ class Linux(OS):
         m.setvolume(self.volume)
 
     def do_action(self, action, volume):
-        linuxKeys = {            
-            'playpause' : 'XF86AudioPlay',
-            'volumeup' : 'XF86AudioRaiseVolume',
-            'prevtrack' : 'XF86AudioPrev',
+        linuxKeys = {
+            'playpause': 'XF86AudioPlay',
+            'volumeup': 'XF86AudioRaiseVolume',
+            'prevtrack': 'XF86AudioPrev',
             'volumedown': 'XF86AudioLowerVolume',
-            'nexttrack' : 'XF86AudioNext',
-            'volumemute' : 'XF86AudioMute',
+            'nexttrack': 'XF86AudioNext',
+            'volumemute': 'XF86AudioMute',
             'down': 'down',
             'up': 'up',
-            'right':'right',
-            'left':'left',
-            'space':'space'
+            'right': 'right',
+            'left': 'left',
+            'space': 'space'
         }
 
-        needCommandLine = ['playpause', "volumeup", "prevtrack", "volumedown", "nexttrack", "volumemute"]
+        needCommandLine = ['playpause', "volumeup",
+                           "prevtrack", "volumedown", "nexttrack", "volumemute"]
 
         try:
             if action == 'power':
@@ -286,7 +287,8 @@ class Linux(OS):
                 press(linuxKeys[action])
             elif action == "setvolume":
                 self.volume = int(volume)
-                self.set_volume()  # not that this does not bring up interface showing volume change.
+                # not that this does not bring up interface showing volume change.
+                self.set_volume()
             else:
                 # print("unknown button") # prevents people from injecting keys in url ^ .
                 pass

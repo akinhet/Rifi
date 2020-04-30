@@ -1,49 +1,26 @@
 '''
 Made by Aayush Pokharel
-
 Project Started on: Feb 16, 2020
-
 https://github.com/Aayush9029
-
 '''
 
-'''
-https://askubuntu.com/questions/689521/control-volume-using-python-script
-https://stackoverflow.com/questions/20828752/python-change-master-application-volume
-https://stackoverflow.com/questions/2565204/adjust-osx-system-audio-volume-in-python
-'''
-
-from pyautogui import press, hotkey
-from flask import Flask, render_template, request
-from time import sleep
 import socket
-import operating_system
+from flask import Flask, render_template, request
 import qrcode_terminal
-
-# Fall back for unix devices. If you have fix to this issue please sumbit a pull request.
-macKeys = {
-    'playpause'  : 'space',
-    'volumeup'   : 'up', 
-    'prevtrack'  : 'left',
-    'volumedown' : 'down',
-    'nexttrack'  : 'right',
-    'volumemute' : 'm',
-    'down'       : 'down',
-    'up'         : 'up',
-    'right'      : 'right',
-    'left'       : 'left'
-}
+import operating_system
 
 
 def find_ip():
     '''
     Returns local IP address of the machine.
     '''
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))  # this sees if device is connected to internet
-    ip = s.getsockname()[0]
-    s.close()
-    return ip
+    socket_lib = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    # this sees if device is connected to internet
+    socket_lib.connect(("8.8.8.8", 80))
+    ip_address = socket_lib.getsockname()[0]
+    socket_lib.close()
+    return ip_address
+
 
 myOS = operating_system.OS.get_os()
 
@@ -54,55 +31,67 @@ issues = f'''
     https://github.com/Aayush9029/Rifi/issues
     '''
 
+
 def inialize():
     '''
     Initializes ip address, port.
     Asks user if they want to view qr code.
     Checks if OS  is recognized or not.
     '''
-    ip = find_ip()
-    port_num = 8000
-        
+    ip_addr = find_ip()
+    port_number = 8000
+
     ask = input("do you want to see the qr Code? ")
 
     if ask.lower() == 'y' or ask.lower() == 'yes':
-        qrcode_terminal.draw(f'http://{ip}:{port_num}')
+        qrcode_terminal.draw(f'http://{ip_addr}:{port_number}')
     else:
         print('-' * 50 + '\n' * 5)
-        print(f"Type this in Apple watch app =>  {ip}:{port_num}")
+        print(f"Type this in Apple watch app =>  {ip_addr}:{port_number}")
         print('\n' * 5 + '-' * 50)
 
     print("\n\nminimize this application\n\n")
-    print("Your ip:", ip)
-    print("Port:", port_num)
+    print("Your ip:", ip_addr)
+    print("Port:", port_number)
     print("OS:", myOS.name)
 
-    return (ip, port_num)
+    return (ip_addr, port_number)
 
 
 ip, port_num = inialize()
 
 app = Flask(__name__)
 
-VolumeSliderStep = 4
+
+VOLUMESLIDERSTEP = 4
+
 
 @app.route("/")
 def index():
-    return render_template("index.html", volume=myOS.get_volume(), volumeSliderStep=VolumeSliderStep)
+    '''
+    Serves index page on /
+    '''
+    return render_template(
+        "index.html", volume=myOS.get_volume(), volumeSliderStep=VOLUMESLIDERSTEP)
+
 
 @app.route("/press")
 def do_press():
+    '''
+    Listens on /press for key presses.
+    '''
     key = request.args.get("key", None)
     volume = request.args.get("volume", None)
-    
     success = myOS.do_action(key, volume)
-    # print("_________>   ",changeKeys, key)
 
     return {"press": success}
 
 
 @app.route("/getvolume")
 def get_volume():
+    '''
+    returns for volume value of the system. almost an 'api'
+    '''
     return{"volume": myOS.get_volume()}
 
 
