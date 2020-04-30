@@ -6,100 +6,98 @@
     <title>Rifi</title>
     <link rel="stylesheet" href="../static/style_1_1.css" />
   </head>
-  
+
   <script>
+    function sleep(time) {
+      return new Promise((resolve) => setTimeout(resolve, time));
+    }
 
+    function mysubmit(key) {
+      fetch("./press?key=" + key)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (!data.press) {
+            alert("Error in processing button");
+          } else {
+            updateVolume();
+          }
+          // console.log(data);
+        });
+    }
 
-function sleep (time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+    function updateVolume() {
+      fetch("./getvolume")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.volume >= 0 && data.volume <= 100) {
+            document.getElementById("myRange").value = "" + data.volume;
+            document.getElementById("volumeValue").innerHTML =
+              "Volume: " + data.volume;
+          }
+          // console.log(data);
+        });
+    }
 
+    function doSlider(element) {
+      document.getElementById("volumeValue").style.opacity = "1";
+      sleep(1000).then(() => {
+        document.getElementById("volumeValue").style.opacity = "0";
+      });
+      document.getElementById("volumeValue").innerHTML =
+        "Volume: " + element.value;
 
-
-
-function mysubmit(key) {
-	fetch('./press?key=' + key)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-	if (! data.press){
-		alert("Error in processing button");
-	}else{
-	  updateVolume();
-	}
-    // console.log(data);
-  });
-}
-
-function updateVolume(){
-  fetch('./getvolume')
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-	if (data.volume >= 0 && data.volume <= 100){
-		document.getElementById("myRange").value = "" + data.volume;
-        document.getElementById("volumeValue").innerHTML = "Volume: " + data.volume;
-	}
-    // console.log(data);
-  });
-
-}
-
-function doSlider(element){
-  
-
-  document.getElementById("volumeValue").style.opacity = "1"
-  sleep(1000).then(() => {
-    document.getElementById("volumeValue").style.opacity = "0"
-
-});
-  document.getElementById("volumeValue").innerHTML = "Volume: " + element.value;
-
-  fetch('./press?key=setvolume&volume=' + element.value)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-	if (! data.press){
-		alert("Error in processing button");
-	}
-    // console.log(data);
-  });
-}
-
-
-
+      fetch("./press?key=setvolume&volume=" + element.value)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (!data.press) {
+            alert("Error in processing button");
+          }
+          // console.log(data);
+        });
+    }
   </script>
   <body>
-<div class="topLayout">
-  <button onclick="mysubmit('power')" class="mute1 cta" ></button>
-  <button onclick="mysubmit('volumemute')" class="mute2 cta" ></button>
-</div>
+    <div class="topLayout">
+      <button onclick="mysubmit('power')" class="mute1 cta"></button>
+      <button onclick="mysubmit('volumemute')" class="mute2 cta"></button>
+    </div>
 
     <div class="wrapper">
       <!-- <button onclick="mysubmit('volumemute')"    class="mute cta" ></button> -->
 
       <!-- <button onclick="mysubmit('volumeup')"    class="two cta" ></button> -->
-      <button onclick="mysubmit('nexttrack')" class="four cta"></button>   
-      <button onclick="mysubmit('prevtrack')"  class="three cta"></button>
+      <button onclick="mysubmit('nexttrack')" class="four cta"></button>
+      <button onclick="mysubmit('prevtrack')" class="three cta"></button>
       <!-- <button onclick="mysubmit('volumedown')"  class="five cta"></button> -->
       <button onclick="mysubmit('playpause')" class="six cta"></button>
     </div>
 
     <div class="slidecontainer">
       <h1 id="volumeValue">Volume: {{ volume }}</h1>
-      <input type="range" step="{{ volumeSliderStep }}" min="0" max="100" value="{{ volume }}" class="slider" id="myRange" oninput="doSlider(this);">
+      <input
+        type="range"
+        step="{{ volumeSliderStep }}"
+        min="0"
+        max="100"
+        value="{{ volume }}"
+        class="slider"
+        id="myRange"
+        oninput="doSlider(this);"
+      />
     </div>
 
     <div class="multimedia_wrapper">
-      <button onclick="mysubmit('left')"    class="leftArrow cta" ></button>
-      <button onclick="mysubmit('up')" class="up cta"></button>   
-      <button onclick="mysubmit('space')"  class="space cta"></button>
-      <button onclick="mysubmit('down')"  class="down cta"></button>
-      <button onclick="mysubmit('right')"  class="rightArrow cta"></button>
-
+      <button onclick="mysubmit('left')" class="leftArrow cta"></button>
+      <button onclick="mysubmit('up')" class="up cta"></button>
+      <button onclick="mysubmit('space')" class="space cta"></button>
+      <button onclick="mysubmit('down')" class="down cta"></button>
+      <button onclick="mysubmit('right')" class="rightArrow cta"></button>
     </div>
   </body>
 </html>
