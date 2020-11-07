@@ -32,7 +32,7 @@
           return response.json();
         })
         .then((data) => {
-          if (data.volume >= 0 && data.volume <= 100) {
+          if (data.volume >= 0 && data.volume <= 1) {
             document.getElementById("myRange").value = "" + data.volume;
             document.getElementById("volumeValue").innerHTML =
               "Volume: " + data.volume;
@@ -77,7 +77,7 @@
         type="range"
         step="{{ volumeSliderStep }}"
         min="0"
-        max="100"
+        max="1"
         value="{{ volume }}"
         class="slider"
         id="myRange"

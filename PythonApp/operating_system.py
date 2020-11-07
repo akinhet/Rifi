@@ -263,24 +263,30 @@ class Linux(OS):
     def __init__(self):
         # an import only used for linux users
         try:
-            import alsaaudio
+            import pulsectl
         except ImportError:
-            print("You must install alsaaudio module to run on linux")
-            print("try running: sudo apt-get install libasound2-dev")
-            print("Followed by: pip install pyalsaaudio")
+            print("You must install pulsectl module to run on linux")
+            print("Try: pip install pulsectl")
             exit(0)
 
         self.get_volume()
 
     def get_volume(self):
-        import alsaaudio
-        m = alsaaudio.Mixer()
-        self.volume = int(m.getvolume()[0])
+        from pulsectl import Pulse
+        with Pulse() as pulse:
+            for input in pulse.sink_input_list():
+                if input.name == 'Spotify':
+                    self.spotify = input
+                    break
+
+        self.volume = self.spotify.volume.value_flat
 
     def set_volume(self):
-        import alsaaudio
-        m = alsaaudio.Mixer()
-        m.setvolume(self.volume)
+        from pulsectl import Pulse
+
+        with Pulse() as pulse:
+            self.spotify.volume.value_flat = self.volume
+            pulse.volume_set(self.spotify, self.spotify.volume)
 
     def do_action(self, action, volume):
         linuxKeys = {
@@ -309,7 +315,7 @@ class Linux(OS):
             elif action in linuxKeys:
                 press(linuxKeys[action])
             elif action == "setvolume":
-                self.volume = int(volume)
+                self.volume = float(volume)
                 # not that this does not bring up interface showing volume change.
                 self.set_volume()
             else:

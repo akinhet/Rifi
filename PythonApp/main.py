@@ -63,7 +63,7 @@ ip, port_num = inialize()
 app = Flask(__name__)
 
 
-VOLUMESLIDERSTEP = 4
+VOLUMESLIDERSTEP = 0.05
 
 
 @app.route("/")
