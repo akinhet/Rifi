@@ -5,6 +5,26 @@ Tested on : MacOS | Windows 10 | Manjaro *Linux*
 
 ---
 
+```gdscript
+# Checks if player collided with enemy
+func _on_Area2D_body_entered(body : Node):
+	if !wasHit and !knockedOut and !invincible:
+		if (position - body.position).normalized().x > 0:
+#			set_deferred("direction", Vector2(1, -1))
+			direction = Vector2(1, -1)
+#			set_deferred("motion", direction * MAX_SPEED / 2)
+			motion = direction * MAX_SPEED / 2
+		else:
+#			set_deferred("direction", Vector2(-1, -1))
+			direction = Vector2(-1, -1)
+#			set_deferred("motion", direction * MAX_SPEED / 2)
+			motion = direction * MAX_SPEED / 2
+#		wasHit = true
+		lifes -= 1
+		set_deferred("wasHit", true)
+		emit_signal("hearts_update", lifes)
+```
+
 ##  [![Watch OS version](https://img.shields.io/badge/WatchOS-6.1-skyblue?style=flat-square)](https://www.apple.com/ca/watchos/watchos-6/)   [![python 3.8](https://img.shields.io/badge/Python-3.8.1-brightred?style=flat-square)](https://www.python.org/) [![ask me why](https://img.shields.io/badge/Rifi-v1.4-purple?style=flat-square)](http://aayush.wtf) [![Xcode 11](https://img.shields.io/badge/Xcode-11-blue?style=flat-square)](https://www.apple.com/) [![iOS 13](https://img.shields.io/badge/iOS-13-pink?style=flat-square)](https://www.apple.com/ios/)
   Watch Connect and Player View</br>
   <img src="Images/wc.png" width="128" >
